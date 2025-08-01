@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { 
-  Brain, 
-  Settings, 
-  LogOut, 
-  User, 
+import {
+  Brain,
+  Settings,
+  LogOut,
+  User,
   Bell,
   Search,
-  ChevronDown
+  ChevronDown,
+  Zap,
+  Crown
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface DashboardHeaderProps {
@@ -23,15 +25,22 @@ interface DashboardHeaderProps {
 const DashboardHeader = ({ user }: DashboardHeaderProps) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const location = useLocation();
 
   const navigationItems = [
-    { name: "Dashboard", href: "/dashboard", active: true },
-    { name: "Agents", href: "/agents", active: false },
-    { name: "Wallet", href: "/wallet", active: false },
-    { name: "Analytics", href: "/analytics", active: false },
-    { name: "Marketplace", href: "/marketplace", active: false },
-    { name: "Voice", href: "/voice", active: false },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Agents", href: "/agents" },
+    { name: "Wallet", href: "/wallet" },
+    { name: "Analytics", href: "/analytics" },
+    { name: "Marketplace", href: "/marketplace" },
   ];
+
+  const isActiveRoute = (href: string) => {
+    if (href === "/dashboard") {
+      return location.pathname === "/dashboard";
+    }
+    return location.pathname.startsWith(href);
+  };
 
   const notifications = [
     { id: 1, message: "Agent 'DataAnalyst Pro' completed task", time: "2 min ago", unread: true },
@@ -69,13 +78,13 @@ const DashboardHeader = ({ user }: DashboardHeaderProps) => {
                   key={item.name}
                   to={item.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative group ${
-                    item.active 
-                      ? 'text-primary bg-primary/10' 
+                    isActiveRoute(item.href)
+                      ? 'text-primary bg-primary/10'
                       : 'text-muted-foreground hover:text-foreground hover:bg-card/50'
                   }`}
                 >
                   {item.name}
-                  {item.active && (
+                  {isActiveRoute(item.href) && (
                     <motion.div
                       className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
                       layoutId="activeTab"
@@ -136,14 +145,29 @@ const DashboardHeader = ({ user }: DashboardHeaderProps) => {
                       ))}
                     </div>
                     <div className="p-2 border-t border-border">
-                      <Button variant="ghost" size="sm" className="w-full">
-                        View All Notifications
-                      </Button>
+                      <Link to="/notifications">
+                        <Button variant="ghost" size="sm" className="w-full">
+                          View All Notifications
+                        </Button>
+                      </Link>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
+
+            {/* Upgrade to Pro Button */}
+            <Link to="/payment">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-gradient-to-r from-primary/10 to-accent/10 border-primary/30 hover:from-primary/20 hover:to-accent/20 text-primary hover:text-primary"
+              >
+                <Crown className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Upgrade to Pro</span>
+                <span className="sm:hidden">Pro</span>
+              </Button>
+            </Link>
 
             {/* User Profile Dropdown */}
             <div className="relative">
@@ -191,22 +215,20 @@ const DashboardHeader = ({ user }: DashboardHeaderProps) => {
                     </div>
                     
                     <div className="py-2">
-                      <Link
-                        to="/profile"
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-card/50 transition-colors"
+                      <button
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-card/50 transition-colors w-full text-left"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <User className="w-4 h-4" />
                         Profile
-                      </Link>
-                      <Link
-                        to="/settings"
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-card/50 transition-colors"
+                      </button>
+                      <button
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-card/50 transition-colors w-full text-left"
                         onClick={() => setIsProfileOpen(false)}
                       >
                         <Settings className="w-4 h-4" />
                         Settings
-                      </Link>
+                      </button>
                     </div>
                     
                     <div className="border-t border-border py-2">
