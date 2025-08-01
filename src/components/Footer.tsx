@@ -14,7 +14,7 @@ const Footer = () => {
               <span className="text-xl font-bold text-foreground">ncAGENTS</span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-md">
-              The comprehensive AI agent management platform with advanced features including 
+              The comprehensive AI agent management platform with advanced features including
               long-term memory, multi-agent collaboration, and blockchain integration.
             </p>
             <div className="flex items-center gap-4">

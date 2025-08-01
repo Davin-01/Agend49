@@ -6,10 +6,21 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Brain, Github, Mail, Eye, EyeOff, Check } from "lucide-react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate successful registration
+    // In a real app, you'd make an API call here
+    setTimeout(() => {
+      navigate("/verify-email");
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-6">
@@ -62,7 +73,7 @@ const SignUp = () => {
             </div>
 
             {/* Registration Form */}
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName" className="text-foreground">First Name</Label>
@@ -145,7 +156,7 @@ const SignUp = () => {
                 </label>
               </div>
 
-              <Button variant="hero" className="w-full" size="lg">
+              <Button type="submit" variant="hero" className="w-full" size="lg">
                 Create Account
               </Button>
             </form>
@@ -153,9 +164,9 @@ const SignUp = () => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <a href="/signin" className="text-primary hover:text-primary/80 transition-colors font-medium">
+                <Link to="/signin" className="text-primary hover:text-primary/80 transition-colors font-medium">
                   Sign in here
-                </a>
+                </Link>
               </p>
             </div>
           </CardContent>
@@ -163,9 +174,9 @@ const SignUp = () => {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Back to home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

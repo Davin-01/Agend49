@@ -5,9 +5,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator";
 import { Brain, Github, Mail, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate successful login
+    // In a real app, you'd make an API call here
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1000);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-6">
@@ -60,7 +71,7 @@ const SignIn = () => {
             </div>
 
             {/* Email Form */}
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-foreground">Email</Label>
                 <Input
@@ -95,12 +106,12 @@ const SignIn = () => {
                   <input type="checkbox" className="rounded border-border" />
                   <span className="text-muted-foreground">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-primary hover:text-primary/80 transition-colors">
+                <Link to="/forgot-password" className="text-sm text-primary hover:text-primary/80 transition-colors">
                   Forgot password?
-                </a>
+                </Link>
               </div>
 
-              <Button variant="hero" className="w-full" size="lg">
+              <Button type="submit" variant="hero" className="w-full" size="lg">
                 Sign In to Dashboard
               </Button>
             </form>
@@ -108,9 +119,9 @@ const SignIn = () => {
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <a href="/signup" className="text-primary hover:text-primary/80 transition-colors font-medium">
+                <Link to="/signup" className="text-primary hover:text-primary/80 transition-colors font-medium">
                   Sign up for free
-                </a>
+                </Link>
               </p>
             </div>
           </CardContent>
@@ -118,9 +129,9 @@ const SignIn = () => {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <a href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             ← Back to home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
