@@ -12,78 +12,166 @@ import {
   Brain, 
   Star,
   ArrowRight,
-  ChevronDown,
-  ChevronUp
+  ChevronDown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+interface PlanFeature {
+  name: string;
+  included: boolean;
+}
+
+interface Plan {
+  name: string;
+  description: string;
+  monthlyPrice: string;
+  yearlyPrice: string;
+  popular: boolean;
+  features: PlanFeature[];
+  cta: string;
+  ctaLink: string;
+}
+
+interface Testimonial {
+  name: string;
+  title: string;
+  company: string;
+  content: string;
+  rating: number;
+}
+
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 const Pricing = () => {
   const [isYearly, setIsYearly] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const plans = [
+  const plans: Plan[] = [
     {
       name: "Free",
-      description: "Perfect for getting started with AI agents",
-      monthlyPrice: 0,
-      yearlyPrice: 0,
+      description: "For Platform testing & basic usage",
+      monthlyPrice: "0",
+      yearlyPrice: "0",
       popular: false,
       features: [
-        { name: "Up to 3 AI agents", included: true },
-        { name: "Basic memory (1GB)", included: true },
-        { name: "Community support", included: true },
-        { name: "Basic templates", included: true },
-        { name: "Multi-agent collaboration", included: false },
-        { name: "Advanced analytics", included: false },
-        { name: "Priority support", included: false },
-        { name: "Custom integrations", included: false },
+        { name: "2 AI Agents (lifetime)", included: true },
+        { name: "500 messages/month (total across all agents)", included: true },
+        { name: "1 Discord deployment", included: true },
+        { name: "Basic AI models only (Gemini, DeepSeek)", included: true },
+        { name: "100MB memory storage", included: true },
+        { name: "10 function calls/month", included: true },
+        { name: "Community support only", included: true },
+        { name: "Basic analytics", included: true },
+        { name: "Web deployment", included: false },
+        { name: "Custom models", included: false },
+        { name: "Multi-agent features", included: false },
       ],
       cta: "Get Started Free",
       ctaLink: "/signup"
     },
     {
-      name: "Pro",
-      description: "For professionals building advanced AI solutions",
-      monthlyPrice: 29,
-      yearlyPrice: 290,
+      name: "Starter Plan",
+      description: "For Individual creators & small businesses",
+      monthlyPrice: "14.99",
+      yearlyPrice: "169.88",
       popular: true,
       features: [
-        { name: "Unlimited AI agents", included: true },
-        { name: "Advanced memory (50GB)", included: true },
-        { name: "Multi-agent collaboration", included: true },
+        { name: "5 AI Agents", included: true },
+        { name: "2,500 messages/month (500 per agent)", included: true },
+        { name: "3 Discord deployments", included: true },
+        { name: "All AI models (Gemini, DeepSeek, GPT-3.5, Claude-3 Haiku)", included: true },
+        { name: "500MB memory storage", included: true },
+        { name: "100 function calls/month", included: true },
+        { name: "Email support", included: true },
         { name: "Advanced analytics", included: true },
-        { name: "Priority email support", included: true },
-        { name: "Premium templates", included: true },
-        { name: "API access", included: true },
-        { name: "Custom integrations", included: false },
+        { name: "Web deployment (1 site)", included: false },
+        { name: "Custom agent templates", included: false },
+        { name: "Basic multi-agent (2 agents max)", included: false },
       ],
-      cta: "Start Pro Trial",
+      cta: "Start Plan Trial",
       ctaLink: "/signup"
     },
     {
-      name: "Enterprise",
-      description: "For organizations with advanced requirements",
-      monthlyPrice: 99,
-      yearlyPrice: 990,
+      name: "Professional Plan",
+      description: "For Growing businesses & power users",
+      monthlyPrice: "39.99",
+      yearlyPrice: "469.99",
       popular: false,
       features: [
-        { name: "Unlimited everything", included: true },
-        { name: "Unlimited memory", included: true },
-        { name: "Advanced collaboration", included: true },
-        { name: "Custom analytics", included: true },
-        { name: "24/7 phone support", included: true },
-        { name: "Custom templates", included: true },
-        { name: "Full API access", included: true },
+        { name: "15 AI Agents", included: true },
+        { name: "10,000 messages/month (667 per agent)", included: true },
+        { name: "Unlimited Discord deployments", included: true },
+        { name: "All AI models + GPT-4, Claude-3 Sonnet, Grok", included: true },
+        { name: "2GB memory storage", included: true },
+        { name: "500 function calls/month", included: true },
+        { name: "Priority support", included: true },
+        { name: "Advanced analytics + insights", included: true },
+        { name: "Unlimited web deployments", included: true },
         { name: "Custom integrations", included: true },
+        { name: "Multi-agent collaboration (5 agents max)", included: true },
+        { name: "Voice features (ElevenLabs)", included: true },
+        { name: "Custom branding", included: true },
+      ],
+      cta: "Contact Sales",
+      ctaLink: "/contact"
+    },
+    {
+      name: "Business Plan",
+      description: "For Teams & agencies",
+      monthlyPrice: "79.99",
+      yearlyPrice: "929.88",
+      popular: false,
+      features: [
+        { name: "50 AI Agents", included: true },
+        { name: "50,000 messages/month (1,000 per agent)", included: true },
+        { name: "All platform integrations (Discord, Telegram, WhatsApp, Slack)", included: true },
+        { name: "All AI models + Claude-3 Opus, GPT-4 Turbo", included: true },
+        { name: "10GB memory storage", included: true },
+        { name: "2,000 function calls/month", included: true },
+        { name: "Dedicated support", included: true },
+        { name: "Team management (5 users)", included: true },
+        { name: "White-label options", included: true },
+        { name: "Advanced multi-agent (10 agents max)", included: true },
+        { name: "Custom model fine-tuning", included: true },
+        { name: "API access", included: true },
+        { name: "Advanced security features", included: true },
+      ],
+      cta: "Contact Sales",
+      ctaLink: "/contact"
+    },
+    {
+      name: "Enterprise Plan",
+      description: "For Large organizations",
+      monthlyPrice: "199.99",
+      yearlyPrice: "2359.88",
+      popular: false,
+      features: [
+        { name: "Unlimited AI Agents", included: true },
+        { name: "200,000 messages/month", included: true },
+        { name: "All platform integrations", included: true },
+        { name: "All AI models + custom models", included: true },
+        { name: "50GB memory storage", included: true },
+        { name: "10,000 function calls/month", included: true },
+        { name: "24/7 phone support", included: true },
+        { name: "Team management (unlimited users)", included: true },
+        { name: "Full white-label solution", included: true },
+        { name: "Unlimited multi-agent collaboration", included: true },
+        { name: "Custom integrations", included: true },
+        { name: "SLA guarantees (99.9% uptime)", included: true },
+        { name: "Advanced security (SSO, audit logs)", included: true },
+        { name: "Custom training data", included: true },
       ],
       cta: "Contact Sales",
       ctaLink: "/contact"
     }
   ];
 
-  const faqs = [
+  const faqs: FAQ[] = [
     {
       question: "Can I change my plan at any time?",
       answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate any billing differences."
@@ -110,7 +198,7 @@ const Pricing = () => {
     }
   ];
 
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       name: "Sarah Chen",
       title: "AI Research Director",
@@ -151,17 +239,19 @@ const Pricing = () => {
     },
   };
 
-  const getPrice = (plan: typeof plans[0]) => {
-    if (plan.monthlyPrice === 0) return "Free";
+  const getPrice = (plan: Plan) => {
+    if (plan.monthlyPrice === "0") return "Free";
     const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
     const period = isYearly ? "/year" : "/month";
     return `$${price}${period}`;
   };
 
-  const getSavings = (plan: typeof plans[0]) => {
-    if (plan.monthlyPrice === 0) return null;
-    const yearlyTotal = plan.monthlyPrice * 12;
-    const savings = yearlyTotal - plan.yearlyPrice;
+  const getSavings = (plan: Plan) => {
+    if (plan.monthlyPrice === "0") return 0;
+    const monthlyPriceNum = parseFloat(plan.monthlyPrice);
+    const yearlyPriceNum = parseFloat(plan.yearlyPrice);
+    const yearlyTotal = monthlyPriceNum * 12;
+    const savings = yearlyTotal - yearlyPriceNum;
     const percentage = Math.round((savings / yearlyTotal) * 100);
     return percentage;
   };
@@ -249,7 +339,7 @@ const Pricing = () => {
       <section className="py-24 px-6">
         <div className="container mx-auto max-w-7xl">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -280,6 +370,7 @@ const Pricing = () => {
                       {index === 0 && <Zap className="w-8 h-8 text-primary" />}
                       {index === 1 && <Brain className="w-8 h-8 text-primary" />}
                       {index === 2 && <Shield className="w-8 h-8 text-primary" />}
+                      {index > 2 && <Users className="w-8 h-8 text-primary" />}
                     </div>
 
                     <CardTitle className="text-2xl font-bold text-foreground mb-2">
@@ -294,9 +385,9 @@ const Pricing = () => {
                       <div className="text-4xl font-bold text-foreground">
                         {getPrice(plan)}
                       </div>
-                      {isYearly && plan.monthlyPrice > 0 && (
+                      {isYearly && plan.monthlyPrice !== "0" && (
                         <div className="text-sm text-muted-foreground">
-                          <span className="line-through">${plan.monthlyPrice * 12}/year</span>
+                          <span className="line-through">${parseFloat(plan.monthlyPrice) * 12}/year</span>
                           <span className="ml-2 text-green-400 font-medium">
                             Save {getSavings(plan)}%
                           </span>
